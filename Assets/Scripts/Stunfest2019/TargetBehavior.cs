@@ -7,7 +7,13 @@ public class TargetBehavior : MonoBehaviour
     private Vector3 _targetDirection = Vector3.right;   // target direction in world space
     private float _angle = 0.0f;                        // default angle direction
     private float _speedTranslate = 50.0f;              // default translation speed value
-    private float _speedRotate = 0.0f;                  // default rotation speed value
+    private float _speedRotate = 30.0f;                  // default rotation speed value
+    private Renderer render ;
+
+    void Awake()
+    {
+        render = GetComponent<Renderer>();
+    }
 
     public void SetAngleDirection(float angleDeg_) {
         _angle = angleDeg_ * Mathf.Deg2Rad;             // convert function input in degree to local variable in radian
@@ -24,17 +30,31 @@ public class TargetBehavior : MonoBehaviour
         _speedRotate = speedRotate_;
     }
 
+    public void SetColor(Color col_)
+    {
+        render.material.SetColor("_Color", col_);
+    }
+
+    public Color GetColor() {
+        return render.material.GetColor("_Color");
+    }
+
     void Update()
     {
         if(_speedRotate != 0.0f)
         {
-            this.gameObject.transform.RotateAround(this.gameObject.transform.position, Vector3.forward, _speedRotate * Time.deltaTime);
+            this.gameObject.transform.RotateAround(this.gameObject.transform.position + Vector3.forward*10, Vector3.forward, _speedRotate * Time.deltaTime);
         }
         this.gameObject.transform.Translate(_speedTranslate *_targetDirection * Time.deltaTime, Space.World);        
     }
 
     void OnBecameInvisible()
     {
+        Debug.Log("invisible");
+        this.destroyTarget();
+    }
+
+    public void destroyTarget() {
         Destroy(this.gameObject);
     }
 }
