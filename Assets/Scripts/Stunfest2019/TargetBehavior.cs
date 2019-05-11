@@ -26,7 +26,12 @@ public class TargetBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //this.gameObject.transform.Translate(this.gameObject.transform.position);
-        this.gameObject.transform.RotateAround(this.gameObject.transform.position, Vector3.up, 20 * Time.deltaTime);
+        //this.gameObject.transform.Translate(this.gameObject.transform.position.x);
+        this.gameObject.transform.RotateAround(this.gameObject.transform.position, Vector3.forward, 20 * Time.deltaTime);
+    }
+
+    void OnBecameInvisible()
+    {
+        Destroy(this.gameObject);
     }
 }
