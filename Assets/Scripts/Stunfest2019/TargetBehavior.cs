@@ -4,30 +4,33 @@ using UnityEngine;
 
 public class TargetBehavior : MonoBehaviour
 {
-    private Vector3 _targetDirection = Vector3.forward;
-    private float _angle = 0.0f;          // default angle direction
-    private float _speedTranslate = 1.0f; // default translation speed value
-    private float _speedRotate = 0.0f;    // default rotation speed value
+    private Vector3 _targetDirection = Vector3.right;   // target direction in world space
+    private float _angle = 0.0f;                        // default angle direction
+    private float _speedTranslate = 50.0f;              // default translation speed value
+    private float _speedRotate = 0.0f;                  // default rotation speed value
 
-    public void setAngleDirection(float angle_) {
-        _angle = angle_;
+    public void SetAngleDirection(float angleDeg_) {
+        _angle = angleDeg_ * Mathf.Deg2Rad;             // convert function input in degree to local variable in radian
+        _targetDirection = new Vector3(Mathf.Cos(_angle), Mathf.Sin(_angle), 0);
     }
 
-    public void setTranslationSpeed(float speedTranslate_)
+    public void SetTranslationSpeed(float speedTranslate_)
     {
         _speedTranslate = speedTranslate_;
     }
 
-    public void setRotationSpeed(float speedRotate_)
+    public void SetRotationSpeed(float speedRotate_)
     {
         _speedRotate = speedRotate_;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //this.gameObject.transform.Translate(this.gameObject.transform.position.x);
-        this.gameObject.transform.RotateAround(this.gameObject.transform.position, Vector3.forward, 20 * Time.deltaTime);
+        if(_speedRotate != 0.0f)
+        {
+            this.gameObject.transform.RotateAround(this.gameObject.transform.position, Vector3.forward, _speedRotate * Time.deltaTime);
+        }
+        this.gameObject.transform.Translate(_speedTranslate *_targetDirection * Time.deltaTime, Space.World);        
     }
 
     void OnBecameInvisible()
