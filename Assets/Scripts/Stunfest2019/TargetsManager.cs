@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//using System;
+using System.Collections;
 using System.Collections.Generic;
 using CRI.HitBoxTemplate.Serial;
 using System.Linq;
@@ -69,12 +70,12 @@ namespace CRI.HitBoxTemplate.Example
 
         public GameObject targetPrefab ;
         List<GameObject> targetsList;       // list of current targets
-        List<Color> reachTargetsColor;      // colors of reached targets
-        List<Color> reachTargetsPosition;   // position of reached targets
+        List<Color> _reachTargetsColor;      // colors of reached targets
+        List<Vector3> _reachTargetsPosition;   // position of reached targets
 
         private TargetProperties _targetPropLvl1 = new TargetProperties(3.0f, 20.0f, 75.0f, 200.0f);    // RGB
         private TargetProperties _targetPropLvl2 = new TargetProperties(2.0f, 30.0f, 120.0f, 300.0f);   // CMJ
-        private TargetProperties _targetPropLvl3 = new TargetProperties(1.0f, 30.0f, 200.0f, 400.0f);   // White
+        private TargetProperties _targetPropLvl3 = new TargetProperties(1.0f, 30.0f, 200.0f, -300.0f);  // White
 
         public GameObject impact;           // prefab to show where the impacts are detected
         private int delayOffHit = 100 ;
@@ -82,6 +83,9 @@ namespace CRI.HitBoxTemplate.Example
 
         private Camera _hitboxCamera;
         public Camera _debugCamera;
+
+        private int _score = 0 ;
+        private int _comboMultiply = 1 ;
 
         private void OnEnable()
         {
@@ -97,8 +101,8 @@ namespace CRI.HitBoxTemplate.Example
         {
             _hitboxCamera = this.gameObject.GetComponent<Camera>();
             targetsList = new List<GameObject>();
-            reachTargetsColor = new List<Color>();
-            reachTargetsPosition = new List<Color>();
+            _reachTargetsColor = new List<Color>();
+            _reachTargetsPosition = new List<Vector3>();
         }
 
         private void OnImpact(object sender, ImpactPointControlEventArgs e)
@@ -143,15 +147,24 @@ namespace CRI.HitBoxTemplate.Example
                     colTargets_[1] = Color.green;
                     colTargets_[2] = Color.blue;
                     SetCrownTargets(position3D_, colTargets_, _targetPropLvl1);
+
+                    _score += 1 * _comboMultiply;
+                    _comboMultiply *= 2;
                 }
                 else
                 {
+                    _reachTargetsColor.Add(targetColor_);   // update reached target colors
+                    _reachTargetsPosition.Add(position3D_); // update reached target positions
+
                     if (targetColor_ == Color.red)
                     {
                         colTargets_ = new Color[2];
                         colTargets_[0] = Color.magenta;
                         colTargets_[1] = Color.yellow;
                         SetCrownTargets(position3D_, colTargets_, _targetPropLvl2);
+
+                        _score += 2 * _comboMultiply;
+                        _comboMultiply *= 4;
                     }
 
                     if (targetColor_ == Color.green)
@@ -160,6 +173,9 @@ namespace CRI.HitBoxTemplate.Example
                         colTargets_[0] = Color.yellow;
                         colTargets_[1] = Color.cyan;
                         SetCrownTargets(position3D_, colTargets_, _targetPropLvl2);
+
+                        _score += 2 * _comboMultiply;
+                        _comboMultiply *= 4;
                     }
 
                     if (targetColor_ == Color.blue)
@@ -168,6 +184,75 @@ namespace CRI.HitBoxTemplate.Example
                         colTargets_[0] = Color.cyan;
                         colTargets_[1] = Color.magenta;
                         SetCrownTargets(position3D_, colTargets_, _targetPropLvl2);
+
+                        _score += 2 * _comboMultiply;
+                        _comboMultiply *= 4;
+                    }
+
+                    if (targetColor_ == Color.white)
+                    {
+                        _score += 4 * _comboMultiply;
+                        _comboMultiply *= 8;
+                    }
+
+                    if (targetColor_ == Color.yellow || targetColor_ == Color.cyan || targetColor_ == Color.magenta)
+                    {
+                        int[] indexCMJ_ = new int[3];
+                        bool isYellow_ = false;
+                        bool isCyan_ = false;
+                        bool isMagenta_ = false;
+                        for (int i = 0; i < _reachTargetsColor.Count; i++) {
+                            if (_reachTargetsColor[i] == Color.yellow && !isYellow_) {
+                                indexCMJ_[0] = i;                                       // get yellow index
+                                isYellow_ = true;
+                            }
+
+                            if (_reachTargetsColor[i] == Color.cyan && !isCyan_){
+                                indexCMJ_[1] = i;                                       // get cyan index
+                                isCyan_ = true;
+                            }
+
+                            if (_reachTargetsColor[i] == Color.magenta && !isMagenta_) {
+                                indexCMJ_[2] = i;                                       // get magenta index
+                                isMagenta_ = true;
+                            }                                
+
+                            if (isYellow_ && isCyan_ && isMagenta_) {
+                                float xG_ = 0.0f;
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    xG_ += _reachTargetsPosition[indexCMJ_[j]].x;
+                                }
+                                xG_ /= 3.0f; // get X pos of white target
+
+                                float yG_ = 0.0f;
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    yG_ += _reachTargetsPosition[indexCMJ_[j]].y;
+                                }
+                                yG_ /= 3.0f;  // get Y pos of white target
+
+                                float zG_ = 0.0f;
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    zG_ += _reachTargetsPosition[indexCMJ_[j]].z;
+                                }
+                                zG_ /= 3.0f;  // get Z pos of white target
+
+                                // Set white target
+                                Vector3 posWhite_ = new Vector3(xG_, yG_, zG_);
+                                SetTarget(posWhite_, Color.white, 0.0f, _targetPropLvl3);
+
+                                // Destroyed reached targets
+                                System.Array.Sort(indexCMJ_);
+                                for (int j = 2; j >= 0; j--) {
+                                    _reachTargetsColor.RemoveAt(indexCMJ_[j]);
+                                    _reachTargetsPosition.RemoveAt(indexCMJ_[j]);                                    
+                                }
+
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -181,7 +266,8 @@ namespace CRI.HitBoxTemplate.Example
             targetsList.Add((GameObject)Instantiate(targetPrefab, position_, Quaternion.identity));
 
             // Set target properties
-            GameObject target_ = targetsList[targetsList.Count - 1];
+            GameObject target_ = targetsList[targetsList.Count - 1];                            // get last target which correspond to the current one
+            target_.GetComponent<TargetBehavior>().SetLifeTime(targetProp_.lifeTime);
             target_.GetComponent<TargetBehavior>().SetAngleDirection(angleDirection_);
             target_.GetComponent<TargetBehavior>().SetColor(colTarget_);
             target_.GetComponent<TargetBehavior>().SetTranslationSpeed(targetProp_.transSpeed);
@@ -219,6 +305,15 @@ namespace CRI.HitBoxTemplate.Example
             for (int i = 0; i < targetsList.Count; i++) {
                 if (targetsList[i] == null)
                     targetsList.RemoveAt(i);
+
+                if (targetsList.Count == 0) {
+                    Debug.Log("Score = " + _score);
+                    _score = 0;
+                    _comboMultiply = 1;
+
+                    _reachTargetsColor.Clear();
+                    _reachTargetsPosition.Clear();
+                }
             }
 
             //Vector3[] accelerations = serialController.accelerations;

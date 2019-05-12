@@ -19,6 +19,11 @@ public class TargetBehavior : MonoBehaviour
         _timeBorn = Time.time;
     }
 
+    public void SetLifeTime(float lifeTime_)
+    {
+        _lifeTime = lifeTime_;
+    }
+
     public void SetAngleDirection(float angleDeg_) {
         _angle = angleDeg_ * Mathf.Deg2Rad;             // convert function input in degree to local variable in radian
         _targetDirection = new Vector3(Mathf.Cos(_angle), Mathf.Sin(_angle), 0);
@@ -67,7 +72,6 @@ public class TargetBehavior : MonoBehaviour
 
     void OnBecameInvisible()
     {
-        Debug.Log("invisible");
         this.destroyTarget();
     }
 
