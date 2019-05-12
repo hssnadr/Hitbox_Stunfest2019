@@ -6,6 +6,63 @@ using UnityEngine;
 
 namespace CRI.HitBoxTemplate.Example
 {
+    struct TargetProperties
+    {
+        private float _rotSpeed;
+        private float _transSpeed;
+        private float _lifeTime;
+        private float _scale;
+
+        public float rotSpeed
+        {
+            set {
+                _rotSpeed = value ;
+            }
+            get{
+                return _rotSpeed;
+            }
+        }
+
+        public float transSpeed
+        {
+            set
+            {
+                _transSpeed = value;
+            }
+            get
+            {
+                return _transSpeed;
+            }
+        }
+
+        public float lifeTime
+        {
+            set
+            {
+                _lifeTime = value;
+            }
+            get
+            {
+                return _lifeTime;
+            }
+        }
+
+        public float scale
+        {
+            set
+            {
+                _scale = value;
+            }
+            get
+            {
+                return _scale;
+            }
+        }
+
+        public TargetProperties(float lifeTime_, float scale_, float transSpeed_, float rotSpeed_)
+        { _lifeTime = lifeTime_; _scale = scale_; _transSpeed = transSpeed_; _rotSpeed = rotSpeed_; }
+    }
+
     public class TargetsManager : MonoBehaviour
     {
         public ExampleSerialController serialController;
@@ -13,14 +70,15 @@ namespace CRI.HitBoxTemplate.Example
         public GameObject targetPrefab;
         List<GameObject> targetsList = new List<GameObject>();
 
-        public GameObject impactPrefab; // prefab to show where the impacts are detected
+        private TargetProperties _targetPropLvl1 = new TargetProperties(5.0f, 20.0f, 100.0f, 100.0f);
+        private TargetProperties _targetPropLvl2 = new TargetProperties(3.0f, 30.0f, 150.0f, 200.0f);
+
+        public GameObject impact; // prefab to show where the impacts are detected
         private int delayOffHit = 100 ;
         private long timerOffHit0 = 0;
 
         private Camera _hitboxCamera;
         public Camera _debugCamera;
-
-        Color[] colors ;
 
         private void OnEnable()
         {
@@ -36,14 +94,6 @@ namespace CRI.HitBoxTemplate.Example
         {
             _hitboxCamera = this.gameObject.GetComponent<Camera>();
             targetsList = new List<GameObject>();
-            colors = new Color[7];
-            colors[0] = Color.red;
-            colors[1] = Color.green;
-            colors[2] = Color.blue;
-            colors[3] = Color.yellow;
-            colors[4] = Color.cyan;
-            colors[5] = Color.magenta;
-            colors[6] = Color.white;
         }
 
         private void OnImpact(object sender, ImpactPointControlEventArgs e)
@@ -70,15 +120,12 @@ namespace CRI.HitBoxTemplate.Example
                         targetColor_ = hit.collider.GetComponent<TargetBehavior>().GetColor();
                         hit.collider.GetComponent<TargetBehavior>().destroyTarget();
                         isTrigger_ = true;
-                        Debug.Log("HIT");
                     }
                 }
             }
             else {
                 isTrigger_ = true;
             }
-
-            Debug.Log(targetColor_.ToString());
 
             if (isTrigger_)
             {
@@ -90,7 +137,7 @@ namespace CRI.HitBoxTemplate.Example
                     colTargets_[0] = Color.red;
                     colTargets_[1] = Color.green;
                     colTargets_[2] = Color.blue;
-                    setCrownTargets(position3D_, colTargets_, 50.0f);
+                    SetCrownTargets(position3D_, colTargets_, _targetPropLvl1);
                 }
                 else
                 {
@@ -99,7 +146,7 @@ namespace CRI.HitBoxTemplate.Example
                         colTargets_ = new Color[2];
                         colTargets_[0] = Color.magenta;
                         colTargets_[1] = Color.yellow;
-                        setCrownTargets(position3D_, colTargets_, 75.0f);
+                        SetCrownTargets(position3D_, colTargets_, _targetPropLvl2);
                     }
 
                     if (targetColor_ == Color.green)
@@ -107,7 +154,7 @@ namespace CRI.HitBoxTemplate.Example
                         colTargets_ = new Color[2];
                         colTargets_[0] = Color.yellow;
                         colTargets_[1] = Color.cyan;
-                        setCrownTargets(position3D_, colTargets_, 75.0f);
+                        SetCrownTargets(position3D_, colTargets_, _targetPropLvl2);
                     }
 
                     if (targetColor_ == Color.blue)
@@ -115,26 +162,46 @@ namespace CRI.HitBoxTemplate.Example
                         colTargets_ = new Color[2];
                         colTargets_[0] = Color.cyan;
                         colTargets_[1] = Color.magenta;
-                        setCrownTargets(position3D_, colTargets_, 75.0f);
+                        SetCrownTargets(position3D_, colTargets_, _targetPropLvl2);
                     }
                 }
             }
 
-            impactPrefab.transform.position = position3D_;
+            impact.transform.position = new Vector3(position3D_.x, position3D_.y, 800); // display a mark where impacts are detected
         }
 
-        private void setCrownTargets(Vector3 position_, Color[] colTargets_, float speed_)
+        //private void SetCrownTargets(Vector3 position_, Color[] colTargets_, float speedTrans_, float speedRot_)
+        //{
+        //    int angle0_ = Random.Range(0, 360);
+        //    int nTargets_ = colTargets_.Length;
+
+        //    for (int i = 0; i < nTargets_ ; i++)
+        //    {
+        //        targetsList.Add((GameObject)Instantiate(targetPrefab, position_, Quaternion.identity));
+        //        GameObject target_ = targetsList[targetsList.Count - 1];
+        //        target_.GetComponent<TargetBehavior>().SetAngleDirection(angle0_ + i * (float)360 / nTargets_);
+        //        target_.GetComponent<TargetBehavior>().SetColor(colTargets_[i]);
+        //        target_.GetComponent<TargetBehavior>().SetTranslationSpeed(speedTrans_);
+        //        target_.GetComponent<TargetBehavior>().SetRotationAxis(position_);
+        //        target_.GetComponent<TargetBehavior>().SetRotationSpeed(speedRot_);
+        //    }
+        //}
+
+        private void SetCrownTargets(Vector3 position_, Color[] colTargets_, TargetProperties targetProp_)
         {
             int angle0_ = Random.Range(0, 360);
             int nTargets_ = colTargets_.Length;
 
-            for (int i = 0; i < nTargets_ ; i++)
+            for (int i = 0; i < nTargets_; i++)
             {
                 targetsList.Add((GameObject)Instantiate(targetPrefab, position_, Quaternion.identity));
                 GameObject target_ = targetsList[targetsList.Count - 1];
                 target_.GetComponent<TargetBehavior>().SetAngleDirection(angle0_ + i * (float)360 / nTargets_);
                 target_.GetComponent<TargetBehavior>().SetColor(colTargets_[i]);
-                target_.GetComponent<TargetBehavior>().SetTranslationSpeed(speed_);
+                target_.GetComponent<TargetBehavior>().SetTranslationSpeed(targetProp_.transSpeed);
+                target_.GetComponent<TargetBehavior>().SetRotationAxis(position_);
+                target_.GetComponent<TargetBehavior>().SetRotationSpeed(targetProp_.rotSpeed);
+                target_.GetComponent<TargetBehavior>().setScale(targetProp_.scale);
             }
         }
 
