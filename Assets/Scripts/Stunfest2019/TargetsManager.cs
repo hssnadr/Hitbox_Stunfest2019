@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CRI.HitBoxTemplate.Serial;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CRI.HitBoxTemplate.Example
 {
@@ -78,14 +79,15 @@ namespace CRI.HitBoxTemplate.Example
         private TargetProperties _targetPropLvl3 = new TargetProperties(1.0f, 30.0f, 200.0f, -300.0f);  // White
 
         public GameObject impact;           // prefab to show where the impacts are detected
-        private int delayOffHit = 100 ;
-        private long timerOffHit0 = 0;
+        private float delayOffHit = 0.2f ;
+        private float timerOffHit0 = 0;
 
         private Camera _hitboxCamera;
         public Camera _debugCamera;
 
         private int _score = 0 ;
         private int _comboMultiply = 1 ;
+        public Text scoreText ;
 
         private void OnEnable()
         {
@@ -103,11 +105,16 @@ namespace CRI.HitBoxTemplate.Example
             targetsList = new List<GameObject>();
             _reachTargetsColor = new List<Color>();
             _reachTargetsPosition = new List<Vector3>();
+
+            scoreText.text = "";
         }
 
         private void OnImpact(object sender, ImpactPointControlEventArgs e)
         {
-            OnImpact(e.impactPosition);
+            if (Time.time - timerOffHit0 > delayOffHit) {
+                OnImpact(e.impactPosition);
+                timerOffHit0 = Time.time;
+            }
         }
 
         private void OnImpact(Vector2 position2D_)
@@ -307,20 +314,17 @@ namespace CRI.HitBoxTemplate.Example
                     targetsList.RemoveAt(i);
 
                 if (targetsList.Count == 0) {
+                    scoreText.text = _score.ToString();
                     Debug.Log("Score = " + _score);
                     _score = 0;
                     _comboMultiply = 1;
 
                     _reachTargetsColor.Clear();
                     _reachTargetsPosition.Clear();
+
+                    serialController.EndGame();
                 }
             }
-
-            //Vector3[] accelerations = serialController.accelerations;
-            //for (int i = 0; i < accelerations.Length; i++)
-            //{
-            //    Debug.Log(string.Format("Acceleration Player {0}", accelerations[i]));
-            //}
         }
     }
 }
