@@ -6,7 +6,7 @@ using CRI.HitBoxTemplate.Serial;
 using System.Linq;
 using UnityEngine;
 
-namespace CRI.HitBoxTemplate.Example
+namespace INSEP
 {
      /// <summary>
      /// Event Payload

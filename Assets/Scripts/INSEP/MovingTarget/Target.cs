@@ -4,7 +4,7 @@
 
 using UnityEngine;
 
-namespace CRI.HitBoxTemplate.Example
+namespace INSEP
 {
     [RequireComponent(typeof(Animator))]
     public class Target : MonoBehaviour
@@ -32,6 +32,10 @@ namespace CRI.HitBoxTemplate.Example
         [Tooltip("Gradient of the particle system when the target is deactivated.")]
         public Gradient _deactivatedGradient;
 
+        [SerializeField]
+        [Tooltip("Delay in second before next hit.")]
+        private float _dlyHit = 0.4f;
+
         /// <summary>
         /// Time of the last hit.
         /// </summary>
@@ -51,13 +55,13 @@ namespace CRI.HitBoxTemplate.Example
 
         private Vector3 _lastPosition;
 
-        public Vector3 speedVector
-        {
-            get
-            {
-                return transform.position - _lastPosition;
-            }
-        }
+        //public Vector3 speedVector
+        //{
+        //    get
+        //    {
+        //        return transform.position - _lastPosition;
+        //    }
+        //}
 
         private Animator _animator;
         private ParticleSystem _ps;
@@ -83,7 +87,7 @@ namespace CRI.HitBoxTemplate.Example
 
         internal void Hit()
         {
-            if ((Time.time - lastHit) > 0.5f)
+            if ((Time.time - lastHit) > _dlyHit)
             {
                 var col = _ps.colorOverLifetime;
                 lastHit = Time.time;
@@ -104,10 +108,17 @@ namespace CRI.HitBoxTemplate.Example
                 }
             }
         }
-        
+
         private void Update()
         {
             _animator.SetBool("Activated", activated);
+
+            if ((Time.time - lastHit) > _dlyHit && !activated)
+            {
+                activated = true;
+                var col = _ps.colorOverLifetime;
+                col.color = _activatedGradient;
+            }
         }
     }
 }

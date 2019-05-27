@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CRI.HitBoxTemplate.Example
+namespace INSEP
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(MeshRenderer))]
