@@ -76,7 +76,7 @@ namespace CRI.HitBoxTemplate.Example
 
         private TargetProperties _targetPropLvl1 = new TargetProperties(3.0f, 20.0f, 75.0f, 200.0f);    // RGB
         private TargetProperties _targetPropLvl2 = new TargetProperties(2.0f, 30.0f, 120.0f, 300.0f);   // CMJ
-        private TargetProperties _targetPropLvl3 = new TargetProperties(1.0f, 30.0f, 200.0f, -300.0f);  // White
+        private TargetProperties _targetPropLvl3 = new TargetProperties(1.0f, 50.0f, 200.0f, -300.0f);  // White
 
         public GameObject impact;           // prefab to show where the impacts are detected
         private float delayOffHit = 0.2f ;
@@ -198,12 +198,15 @@ namespace CRI.HitBoxTemplate.Example
 
                     if (targetColor_ == Color.white)
                     {
-                        _score += 4 * _comboMultiply;
-                        _comboMultiply *= 8;
+                        _score += 8 * _comboMultiply;
+                        _comboMultiply *= 16;
                     }
 
                     if (targetColor_ == Color.yellow || targetColor_ == Color.cyan || targetColor_ == Color.magenta)
                     {
+                        _score += 4 * _comboMultiply;
+                        _comboMultiply *= 8;
+
                         int[] indexCMJ_ = new int[3];
                         bool isYellow_ = false;
                         bool isCyan_ = false;
