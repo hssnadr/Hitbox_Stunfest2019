@@ -132,6 +132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Impact
       objectReference: {fileID: 0}
+    - target: {fileID: 6291402478145702181, guid: 197fc10ee91ed9e4ca7805d3bd05e6fb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6795827022783899711, guid: 197fc10ee91ed9e4ca7805d3bd05e6fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -429,6 +434,21 @@ MonoBehaviour:
   serialController: {fileID: 1644190784}
   targetPrefab: {fileID: 8095705370321486800, guid: 193d6e472569a474c87cf1f30aa5df4f,
     type: 3}
+  _targetPropLvl1:
+    _rotSpeed: 85
+    _transSpeed: 85
+    _lifeTime: 4
+    _scale: 45
+  _targetPropLvl2:
+    _rotSpeed: 200
+    _transSpeed: 100
+    _lifeTime: 3
+    _scale: 25
+  _targetPropLvl3:
+    _rotSpeed: 0
+    _transSpeed: 0
+    _lifeTime: 1
+    _scale: 19
   impact: {fileID: 383212594}
   _debugCamera: {fileID: 597049765}
   scoreText: {fileID: 2106998358}
@@ -638,8 +658,8 @@ Canvas:
   m_GameObject: {fileID: 2057927631}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 833152886}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -661,6 +681,7 @@ GameObject:
   - component: {fileID: 2106998357}
   - component: {fileID: 2106998359}
   - component: {fileID: 2106998358}
+  - component: {fileID: 2106998360}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -682,10 +703,10 @@ RectTransform:
   m_Father: {fileID: 2057927632}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -273}
-  m_SizeDelta: {x: 300, y: 600}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -10.099998, y: 0}
+  m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2106998358
 MonoBehaviour:
@@ -711,10 +732,10 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 30
     m_FontStyle: 1
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 50
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -729,3 +750,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106998356}
   m_CullTransparentMesh: 0
+--- !u!111 &2106998360
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2106998356}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: fa520aa12081dbe4b8cd471e0156fb46, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: fa520aa12081dbe4b8cd471e0156fb46, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

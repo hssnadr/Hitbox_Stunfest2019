@@ -8,11 +8,16 @@ using UnityEngine.UI;
 
 namespace CRI.HitBoxTemplate.Example
 {
-    struct TargetProperties
+    [System.Serializable]
+    public struct TargetProperties
     {
+        [SerializeField]
         private float _rotSpeed;
+        [SerializeField]
         private float _transSpeed;
+        [SerializeField]
         private float _lifeTime;
+        [SerializeField]
         private float _scale;
 
         public float rotSpeed
@@ -74,8 +79,11 @@ namespace CRI.HitBoxTemplate.Example
         List<Color> _reachTargetsColor;      // colors of reached targets
         List<Vector3> _reachTargetsPosition;   // position of reached targets
 
-        private TargetProperties _targetPropLvl1 = new TargetProperties(3.0f, 20.0f, 75.0f, 200.0f);    // RGB
+        [SerializeField]
+        private TargetProperties _targetPropLvl1 = new TargetProperties(3.0f, 40.0f, 85.0f, 0.0f);    // RGB
+        [SerializeField]
         private TargetProperties _targetPropLvl2 = new TargetProperties(2.0f, 30.0f, 120.0f, 300.0f);   // CMJ
+        [SerializeField]
         private TargetProperties _targetPropLvl3 = new TargetProperties(1.0f, 30.0f, 200.0f, -300.0f);  // White
 
         public GameObject impact;           // prefab to show where the impacts are detected
@@ -88,6 +96,8 @@ namespace CRI.HitBoxTemplate.Example
         private int _score = 0 ;
         private int _comboMultiply = 1 ;
         public Text scoreText ;
+
+        private bool isWaiting = false;
 
         private void OnEnable()
         {
@@ -304,6 +314,15 @@ namespace CRI.HitBoxTemplate.Example
         }
 #endif
 
+        private IEnumerator WaitForEnd()
+        {
+            isWaiting = true;
+            yield return new WaitForSeconds(5.0f);
+            scoreText.text = "";
+            serialController.ScreenSaver();
+            isWaiting = false;
+        }
+
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
@@ -313,7 +332,8 @@ namespace CRI.HitBoxTemplate.Example
                 if (targetsList[i] == null)
                     targetsList.RemoveAt(i);
 
-                if (targetsList.Count == 0) {
+                if (targetsList.Count == 0 && !isWaiting)
+                {
                     scoreText.text = _score.ToString();
                     Debug.Log("Score = " + _score);
                     _score = 0;
@@ -323,6 +343,11 @@ namespace CRI.HitBoxTemplate.Example
                     _reachTargetsPosition.Clear();
 
                     serialController.EndGame();
+
+                    StartCoroutine(WaitForEnd());
+                }
+                else {
+                    scoreText.text = ""; 
                 }
             }
         }
