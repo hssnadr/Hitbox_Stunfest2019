@@ -80,7 +80,7 @@ Transform:
   m_GameObject: {fileID: 1826391073208316}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 4007319342588468}
   m_RootOrder: 0
@@ -216,6 +216,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  _dlyHit: 0.5
 --- !u!95 &95623012894534098
 Animator:
   serializedVersion: 3
@@ -5052,7 +5053,7 @@ Transform:
   m_GameObject: {fileID: 7169914228841435801}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 4007319342588468}
   m_RootOrder: 1
@@ -5188,6 +5189,7 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  _dlyHit: 0.4
 --- !u!95 &8082451719372079232
 Animator:
   serializedVersion: 3

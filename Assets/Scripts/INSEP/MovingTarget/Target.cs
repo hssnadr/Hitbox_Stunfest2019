@@ -34,7 +34,7 @@ namespace INSEP
 
         [SerializeField]
         [Tooltip("Delay in second before next hit.")]
-        private float _dlyHit = 0.4f;
+        private float _dlyHit = 1.4f;
 
         /// <summary>
         /// Time of the last hit.
