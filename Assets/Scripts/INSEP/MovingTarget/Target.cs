@@ -109,6 +109,12 @@ namespace INSEP
             }
         }
 
+        public void DestroyTarget()
+        {
+            Destroy(this.gameObject);
+
+        }
+
         private void Update()
         {
             _animator.SetBool("Activated", activated);
