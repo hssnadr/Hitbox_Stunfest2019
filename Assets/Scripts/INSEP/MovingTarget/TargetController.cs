@@ -25,12 +25,17 @@ namespace INSEP
         /// Whether the hit was successful or not.
         /// </summary>
         public bool successful { get; }
+        /// <summary>
+        /// ID of the reached game object
+        /// </summary>
+        public int gameObjectID { get; }
 
-        public TargetControllerHitEventArgs(int playerIndex, Vector2 position, bool successful)
+        public TargetControllerHitEventArgs(int playerIndex, Vector2 position, bool successful, int id)
         {
             this.playerIndex = playerIndex;
             this.position = position;
             this.successful = successful;
+            this.gameObjectID = id;
         }
     }
 
@@ -96,8 +101,9 @@ namespace INSEP
         private void Hit(RaycastHit hit, Vector2 position)
         {
             hit.collider.GetComponent<Target>().Hit();
+            int id_ = hit.collider.gameObject.GetInstanceID();
             if (onHit != null)
-                onHit(this, new TargetControllerHitEventArgs(playerIndex, position, true));
+                onHit(this, new TargetControllerHitEventArgs(playerIndex, position, true, id_));
         }
 
 #if UNITY_EDITOR
@@ -114,8 +120,9 @@ namespace INSEP
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0)) {
                 OnMouseDown();
+            }
         }
 #endif
 

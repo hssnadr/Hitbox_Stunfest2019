@@ -16,10 +16,10 @@ namespace INSEP
         [SerializeField]
         public int nDefense;
         [SerializeField]
-        public int rythm;        // hit per minute
-        
+        public float rythm;      // hit per minute
+        public float timePerAction;
 
-        public SessionTime(int n_, int active_, int recovery_, int nAtt_, int nDef_, int rythm_)
+        public SessionTime(int n_, int active_, int recovery_, int nAtt_, int nDef_, float rythm_)
         {
             this.nTarget = n_;
             this.activeTime = active_;
@@ -27,7 +27,7 @@ namespace INSEP
             this.nAttack = nAtt_;
             this.nDefense = nDef_;
             this.rythm = rythm_;
-            
+            this.timePerAction = 60.0f / this.rythm;
         }
     }
 }
