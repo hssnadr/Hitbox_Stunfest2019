@@ -7,6 +7,7 @@ TagManager:
   - datapoint
   - Trail
   - target
+  - targetAttack
   layers:
   - Default
   - TransparentFX

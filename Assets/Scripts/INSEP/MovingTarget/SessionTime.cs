@@ -28,6 +28,8 @@ namespace INSEP
             this.nDefense = nDef_;
             this.rythm = rythm_;
             this.timePerAction = 60.0f / this.rythm;
+
+            Debug.Log(this.timePerAction);
         }
     }
 }

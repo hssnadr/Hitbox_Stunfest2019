@@ -8,7 +8,7 @@ namespace INSEP
     {
         public ExampleSerialController serialController;
 
-        private bool _isPlaying = false;
+        public bool _isPlaying = false;
 
         private int _score = 0 ;
         private float _curCadence = 0.0f;
@@ -18,6 +18,8 @@ namespace INSEP
         private float _sessionTimer0 = 0.0f;
         private float _actionTimer0 = 0.0f;
         public int _nAttackAction = 0;
+
+        public GameObject targetGenerator;
 
         [SerializeField]
         private SessionTime[] _sessionTimes ;
@@ -33,6 +35,15 @@ namespace INSEP
         }
 
         void Count(object sender, TargetControllerHitEventArgs e) {
+            if(_score == 0)
+            {
+                // Start session on first hit
+                _sessionTimer0 = Time.time;
+                _curSessionTime = 0;
+                _actionTimer0 = Time.time;
+                _isPlaying = true;
+            }
+
             _nAttackAction++;
             _score++;
             
@@ -42,21 +53,19 @@ namespace INSEP
 
                 // Start defense coroutine
                 float _elapsCurTimeAction = Time.time - _actionTimer0;
-                float dlyDefense_ = _sessionTimes[_curSessionTime].timePerAction - _elapsCurTimeAction;
+                float dlyDefense_ = 60.0f/_sessionTimes[_curSessionTime].rythm - _elapsCurTimeAction;
                 StartCoroutine(TrigDefenseAction(dlyDefense_, _sessionTimes[_curSessionTime].nDefense));
             }
         }
 
+        private void Start()
+        {
+            _curSessionTime = 0;
+            targetGenerator.GetComponent<TargetGenerator>().SetRandomAttackTarget(_sessionTimes[_curSessionTime].nAttack);
+        }
+
         void Update()
         {
-            if (Input.GetKeyDown("space") && !_isPlaying)
-            {
-                _sessionTimer0 = Time.time;
-                _curSessionTime = 0;
-                _actionTimer0 = Time.time;
-                _isPlaying = true;
-            }
-
             if (_isPlaying)
             {
                 _curCadence = _score / (Time.time - _sessionTimer0);
@@ -73,11 +82,14 @@ namespace INSEP
                     //------------------
                     //-----RECORVERY----
                     //------------------
-                    if (Time.time - _sessionTimer0 < _sessionTimes[_curSessionTime].recoveryTime)
+                    if (Time.time - _sessionTimer0 < _sessionTimes[_curSessionTime].activeTime + _sessionTimes[_curSessionTime].recoveryTime)
                     {
                         if (_onAttack)
                         {
-                            serialController.ScreenSaver();
+                            targetGenerator.GetComponent<TargetGenerator>().SwitchAllToDefense();
+
+                            if (serialController != null)
+                                serialController.ScreenSaver();
                             // --> disable Unity screen to Hitbox
                         }
                         _onAttack = false;
@@ -86,15 +98,21 @@ namespace INSEP
                     {
                         _curSessionTime++;
                         _sessionTimer0 = Time.time;
+                        _actionTimer0 = Time.time;
                         if (_curSessionTime >= _sessionTimes.Length)
                         {
                             if (_isPlaying)
                             {
-                                serialController.EndGame();
+                                if(serialController != null)
+                                    serialController.EndGame();
                                 // --> disable Unity screen to Hitbox
                                 // then wait for automatic save mode
                             }
                             _isPlaying = false;
+                        }
+                        else
+                        {
+                            targetGenerator.GetComponent<TargetGenerator>().SetRandomAttackTarget(_sessionTimes[_curSessionTime].nAttack);
                         }
                     }
                 }
@@ -103,12 +121,27 @@ namespace INSEP
 
         private IEnumerator TrigDefenseAction(float time_, int n_)
         {
-            float timePerDef_ = time_ / (float)n_;
+            float timePerDef_ = time_ / (float)(n_+1);
+            Debug.Log(timePerDef_);
 
-            for (int i = 0; i < n_; i++) {
-                yield return new WaitForSeconds(timePerDef_);
-                Debug.Log(i);
+            var targetGenerator_ = targetGenerator.GetComponent<TargetGenerator>();
+
+            yield return new WaitForSeconds(timePerDef_);
+
+            if(n_ > 0)
+            {
+                for (int i = 0; i < n_; i++)
+                {
+                    targetGenerator_.DefenseAnimation();
+                    yield return new WaitForSeconds(timePerDef_);
+                }
             }
+
+            if (_onAttack) {
+                targetGenerator_.SetRandomAttackTarget(_sessionTimes[_curSessionTime].nAttack);
+            }
+
+            _actionTimer0 = Time.time;
         }
     }
 }

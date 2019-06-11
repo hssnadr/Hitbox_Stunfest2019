@@ -27,6 +27,9 @@ namespace INSEP
         [SerializeField]
         private float maxAngularVelocity = 3.0f;
 
+        [SerializeField]
+        private float elasticityFactor = 0.8f;
+
         private Rigidbody _rigidbody;
 
 #if UNITY_EDITOR
@@ -56,11 +59,14 @@ namespace INSEP
         {
             _rigidbody.maxAngularVelocity = maxAngularVelocity;
             transform.RotateAround(transform.position, Vector3.forward, _zRotationSpeed * Time.fixedDeltaTime);
+
+            transform.rotation = new Quaternion(this.transform.rotation.x * elasticityFactor, this.transform.rotation.y * elasticityFactor, this.transform.rotation.z, this.transform.rotation.w);
         }
 
         public void Hit(Vector3 cameraForward, RaycastHit hit)
         {
-            _rigidbody.AddForceAtPosition(cameraForward * _rotationSpeed, hit.point, ForceMode.Impulse);
+            //_rigidbody.AddForceAtPosition(cameraForward * _rotationSpeed, hit.point, ForceMode.Impulse);
+            _rigidbody.AddForceAtPosition(cameraForward * 0.1f, hit.point, ForceMode.Impulse);
         }
     }
 }

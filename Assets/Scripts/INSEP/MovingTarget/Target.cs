@@ -19,12 +19,6 @@ namespace INSEP
         [SerializeField]
         [Tooltip("Is the target activated?")]
         internal bool activated = false;
-        /// <summary>
-        /// Prefab of the feedback object.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Prefab of the feedback object.")]
-        private HitFeedbackAnimator _hitFeedbackPrefab = null;
         [SerializeField]
         [Tooltip("Gradient of the particle system when the target is activated.")]
         public Gradient _activatedGradient;
@@ -101,17 +95,12 @@ namespace INSEP
                     activated = true;
                     col.color = _activatedGradient;
                 }
-                if (_hitFeedbackPrefab != null)
-                {
-                    var go = GameObject.Instantiate(_hitFeedbackPrefab, this.transform);
-                    go.gameObject.layer = this.gameObject.layer;
-                }
             }
         }
 
         public void DestroyTarget()
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         private void Update()

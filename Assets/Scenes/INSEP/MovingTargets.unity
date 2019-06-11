@@ -292,44 +292,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serialController: {fileID: 0}
+  _isPlaying: 0
   _curSessionTime: 0
   _onAttack: 0
   _nAttackAction: 0
+  targetGenerator: {fileID: 767814667}
   _sessionTimes:
   - nTarget: 0
-    activeTime: 50
-    recoveryTime: 30
+    activeTime: 10
+    recoveryTime: 5
     nAttack: 2
-    nDefense: 2
-    rythm: 10
+    nDefense: 3
+    rythm: 20
     timePerAction: 0
   - nTarget: 0
-    activeTime: 1
-    recoveryTime: 2
-    nAttack: 0
-    nDefense: 0
-    rythm: 0
-    timePerAction: 0
-  - nTarget: 0
-    activeTime: 0
-    recoveryTime: 0
-    nAttack: 0
-    nDefense: 0
-    rythm: 0
-    timePerAction: 0
-  - nTarget: 0
-    activeTime: 0
-    recoveryTime: 0
-    nAttack: 0
-    nDefense: 0
-    rythm: 0
-    timePerAction: 0
-  - nTarget: 0
-    activeTime: 0
-    recoveryTime: 0
-    nAttack: 0
-    nDefense: 0
-    rythm: 0
+    activeTime: 5
+    recoveryTime: 5
+    nAttack: 1
+    nDefense: 1
+    rythm: 20
     timePerAction: 0
 --- !u!1 &767814667 stripped
 GameObject:
@@ -353,6 +334,8 @@ MonoBehaviour:
     type: 3}
   _targetDefense: {fileID: 5892209259968356142, guid: e48b85b6aa617424286d2e86d24dfc9b,
     type: 3}
+  _hitFeedbackPrefab: {fileID: 114349150737455544, guid: df700d5236e85d14c8395651482b51b3,
+    type: 3}
   lineDefense: {fileID: 767814671}
 --- !u!120 &767814671
 LineRenderer:
@@ -371,7 +354,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 9bdd9ad54b889df448f7afbdfaec575b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -642,6 +625,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Target
+      objectReference: {fileID: 0}
+    - target: {fileID: 114879113528434442, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
+        type: 3}
+      propertyPath: elasticityFactor
+      value: 0.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 54005544026633312, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54005544026633312, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
+        type: 3}
+      propertyPath: m_Drag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54005544026633312, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c, type: 3}
