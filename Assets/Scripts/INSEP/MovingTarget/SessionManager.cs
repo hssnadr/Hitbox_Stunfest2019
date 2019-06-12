@@ -35,7 +35,7 @@ namespace INSEP
         }
 
         void Count(object sender, TargetControllerHitEventArgs e) {
-            if(_score == 0)
+            if(_curSessionTime == 0 && _score == 0)
             {
                 // Start session on first hit
                 _sessionTimer0 = Time.time;
@@ -99,6 +99,8 @@ namespace INSEP
                         _curSessionTime++;
                         _sessionTimer0 = Time.time;
                         _actionTimer0 = Time.time;
+                        _score = 0;
+
                         if (_curSessionTime >= _sessionTimes.Length)
                         {
                             if (_isPlaying)
