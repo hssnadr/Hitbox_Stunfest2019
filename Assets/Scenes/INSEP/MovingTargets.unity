@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428df60b14ff5764292a86cf0dca5a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serialController: {fileID: 0}
+  serialController: {fileID: 1262453704}
   _isPlaying: 0
   _curSessionTime: 0
   _onAttack: 0
@@ -299,18 +299,39 @@ MonoBehaviour:
   targetGenerator: {fileID: 767814667}
   _sessionTimes:
   - nTarget: 0
-    activeTime: 10
-    recoveryTime: 5
-    nAttack: 2
-    nDefense: 3
-    rythm: 20
-    timePerAction: 0
-  - nTarget: 0
-    activeTime: 5
-    recoveryTime: 5
+    activeTime: 60
+    recoveryTime: 50
     nAttack: 1
     nDefense: 1
-    rythm: 20
+    rythm: 80
+    timePerAction: 0
+  - nTarget: 0
+    activeTime: 50
+    recoveryTime: 40
+    nAttack: 2
+    nDefense: 2
+    rythm: 80
+    timePerAction: 0
+  - nTarget: 0
+    activeTime: 40
+    recoveryTime: 30
+    nAttack: 3
+    nDefense: 3
+    rythm: 80
+    timePerAction: 0
+  - nTarget: 0
+    activeTime: 20
+    recoveryTime: 10
+    nAttack: 2
+    nDefense: 0
+    rythm: 160
+    timePerAction: 0
+  - nTarget: 0
+    activeTime: 10
+    recoveryTime: 0
+    nAttack: 3
+    nDefense: 0
+    rythm: 160
     timePerAction: 0
 --- !u!1 &767814667 stripped
 GameObject:
@@ -337,6 +358,10 @@ MonoBehaviour:
   _hitFeedbackPrefab: {fileID: 114349150737455544, guid: df700d5236e85d14c8395651482b51b3,
     type: 3}
   lineDefense: {fileID: 767814671}
+  matLineDefense: {fileID: 2100000, guid: 283c6d1e9b49b144c96d5d75eefdd6b1, type: 2}
+  defenseColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
 --- !u!120 &767814671
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -354,7 +379,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9bdd9ad54b889df448f7afbdfaec575b, type: 2}
+  - {fileID: 2100000, guid: 283c6d1e9b49b144c96d5d75eefdd6b1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -377,7 +402,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 8
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -455,7 +480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4920556953019052, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 4920556953019052, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -629,7 +654,12 @@ PrefabInstance:
     - target: {fileID: 114879113528434442, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
         type: 3}
       propertyPath: elasticityFactor
-      value: 0.97
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 114879113528434442, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
+        type: 3}
+      propertyPath: _zRotationSpeed
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 54005544026633312, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
         type: 3}
@@ -678,13 +708,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serialSettings:
-  - touchControlSerialPortName: COM3
-    ledControlSerialPortName: COM4
+  - touchControlSerialPortName: COM7
+    ledControlSerialPortName: COM3
     playerCamera: {fileID: 411570567}
     impactThreshold: 3
     delayOffHit: 2
     displayDatapoints: 0
-    ignoreBlackBackground: 0
+    ignoreBlackBackground: 1
   _serialControllerPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
     type: 3}
 --- !u!4 &1262453705

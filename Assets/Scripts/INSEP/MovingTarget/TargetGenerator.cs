@@ -21,16 +21,19 @@ namespace INSEP
         private HitFeedbackAnimator _hitFeedbackPrefab = null;
 
         public LineRenderer lineDefense;
+		public Material matLineDefense;
+		public Color[] defenseColors;
+		private int _curColor = 0;
 
         private void Awake()
         {
             _targetsList = new List<GameObject>();
 
             // Instantiate targets
-            AddTarget(_targetDefense, new Vector3(1.5f, 0, 0));
-            AddTarget(_targetDefense, new Vector3(0, 1.5f, 0));
-            AddTarget(_targetDefense, new Vector3(-1.5f, 0, 0));
-            AddTarget(_targetDefense, new Vector3(0, -1.5f, 0));
+            AddTarget(_targetDefense, new Vector3(1.0f, 0, 0));
+            AddTarget(_targetDefense, new Vector3(0, 1.0f, 0));
+            AddTarget(_targetDefense, new Vector3(-1.0f, 0, 0));
+            AddTarget(_targetDefense, new Vector3(0, -1.0f, 0));
         }
 
         private void OnEnable()
@@ -73,9 +76,7 @@ namespace INSEP
             for (int i = 0; i < n_; i++)
             {
                 int randIndx1_ = Mathf.FloorToInt(Random.Range(0, index_.Count));
-                Debug.Log(randIndx1_);
                 int randIndx2_ = index_[randIndx1_];
-                Debug.Log(randIndx2_);
 
                 SwapToTargetType(randIndx2_, _targetAttack);
                 index_.RemoveAt(randIndx1_);
@@ -128,7 +129,13 @@ namespace INSEP
 
         private IEnumerator DefenseAnimationCoroutine()
         {
-            lineDefense.positionCount = _targetsList.Count + 1;
+			// Set color
+			matLineDefense.color = defenseColors[_curColor];
+			_curColor++;
+			_curColor %= defenseColors.Length;
+
+			// Set line
+			lineDefense.positionCount = _targetsList.Count + 1;
             for (int i = 0; i < _targetsList.Count; i++)
             {
                 lineDefense.SetPosition(i, _targetsList[i].transform.position);
