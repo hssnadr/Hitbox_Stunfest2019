@@ -317,8 +317,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serialSettings:
-  - touchControlSerialPortName: COM3
-    ledControlSerialPortName: COM4
+  - touchControlSerialPortName: COM7
+    ledControlSerialPortName: COM3
     playerCamera: {fileID: 411570567}
     impactThreshold: 3
     delayOffHit: 2

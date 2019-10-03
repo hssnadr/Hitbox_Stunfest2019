@@ -299,39 +299,39 @@ MonoBehaviour:
   targetGenerator: {fileID: 767814667}
   _sessionTimes:
   - nTarget: 0
-    activeTime: 60
-    recoveryTime: 50
+    activeTime: 10
+    recoveryTime: 10
     nAttack: 1
     nDefense: 1
-    rythm: 80
+    rythm: 40
     timePerAction: 0
   - nTarget: 0
-    activeTime: 50
-    recoveryTime: 40
+    activeTime: 10
+    recoveryTime: 10
     nAttack: 2
     nDefense: 2
-    rythm: 80
+    rythm: 45
     timePerAction: 0
   - nTarget: 0
     activeTime: 40
     recoveryTime: 30
     nAttack: 3
     nDefense: 3
-    rythm: 80
+    rythm: 35
     timePerAction: 0
   - nTarget: 0
     activeTime: 20
     recoveryTime: 10
     nAttack: 2
     nDefense: 0
-    rythm: 160
+    rythm: 40
     timePerAction: 0
   - nTarget: 0
     activeTime: 10
     recoveryTime: 0
     nAttack: 3
     nDefense: 0
-    rythm: 160
+    rythm: 40
     timePerAction: 0
 --- !u!1 &767814667 stripped
 GameObject:
@@ -362,6 +362,7 @@ MonoBehaviour:
   defenseColors:
   - {r: 1, g: 0, b: 0, a: 1}
   - {r: 0, g: 1, b: 0, a: 1}
+  _radiusTargetCrown: 1
 --- !u!120 &767814671
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -659,7 +660,7 @@ PrefabInstance:
     - target: {fileID: 114879113528434442, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
         type: 3}
       propertyPath: _zRotationSpeed
-      value: 50
+      value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 54005544026633312, guid: 5ae80b69d9d5cc24ea9711111ec9ad1c,
         type: 3}
@@ -708,8 +709,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serialSettings:
-  - touchControlSerialPortName: COM7
-    ledControlSerialPortName: COM3
+  - touchControlSerialPortName: COM3
+    ledControlSerialPortName: COM4
     playerCamera: {fileID: 411570567}
     impactThreshold: 3
     delayOffHit: 2

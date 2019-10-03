@@ -25,15 +25,18 @@ namespace INSEP
 		public Color[] defenseColors;
 		private int _curColor = 0;
 
-        private void Awake()
+		[SerializeField]
+		private float _radiusTargetCrown = 3.0f;
+
+		private void Awake()
         {
             _targetsList = new List<GameObject>();
 
             // Instantiate targets
-            AddTarget(_targetDefense, new Vector3(1.0f, 0, 0));
-            AddTarget(_targetDefense, new Vector3(0, 1.0f, 0));
-            AddTarget(_targetDefense, new Vector3(-1.0f, 0, 0));
-            AddTarget(_targetDefense, new Vector3(0, -1.0f, 0));
+            AddTarget(_targetDefense, new Vector3(_radiusTargetCrown, 0, 0));
+            AddTarget(_targetDefense, new Vector3(0, _radiusTargetCrown, 0));
+            AddTarget(_targetDefense, new Vector3(-1.0f * _radiusTargetCrown, 0, 0));
+            AddTarget(_targetDefense, new Vector3(0, -1.0f * _radiusTargetCrown, 0));
         }
 
         private void OnEnable()
