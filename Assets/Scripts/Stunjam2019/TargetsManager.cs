@@ -325,8 +325,10 @@ namespace CRI.HitBoxTemplate.Example
 
         private void Update()
         {
+#if UNITY_EDITOR
             if (Input.GetMouseButtonDown(0))
                 OnMouseDown();
+#endif
 
             for (int i = 0; i < targetsList.Count; i++) {
                 if (targetsList[i] == null)
