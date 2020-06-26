@@ -76,6 +76,6 @@ public class TargetBehavior : MonoBehaviour
     }
 
     public void destroyTarget() {
-        Destroy(this.gameObject);
+		Destroy(this.gameObject);
     }
 }

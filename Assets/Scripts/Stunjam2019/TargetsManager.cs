@@ -99,7 +99,10 @@ namespace CRI.HitBoxTemplate.Example
 
         private bool isWaiting = false;
 
-        private void OnEnable()
+		[SerializeField]
+		private GameObject _impactFeedback;
+
+		private void OnEnable()
         {
             ImpactPointControl.onImpact += OnImpact;
         }
@@ -146,7 +149,10 @@ namespace CRI.HitBoxTemplate.Example
                         targetColor_ = hit.collider.GetComponent<TargetBehavior>().GetColor();
                         hit.collider.GetComponent<TargetBehavior>().destroyTarget();
                         isTrigger_ = true;
-                    }
+
+						// Hit feedback animation
+						var target_ = Instantiate(_impactFeedback, hit.transform.position, Quaternion.identity);
+					}
                 }
             }
             else {

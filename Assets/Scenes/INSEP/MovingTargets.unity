@@ -298,40 +298,19 @@ MonoBehaviour:
   _nAttackAction: 0
   targetGenerator: {fileID: 767814667}
   _sessionTimes:
-  - nTarget: 0
+  - nTarget: 3
     activeTime: 10
     recoveryTime: 10
     nAttack: 1
     nDefense: 1
-    rythm: 40
+    rythm: 10
     timePerAction: 0
-  - nTarget: 0
-    activeTime: 10
+  - nTarget: 5
+    activeTime: 5
     recoveryTime: 10
     nAttack: 2
     nDefense: 2
-    rythm: 45
-    timePerAction: 0
-  - nTarget: 0
-    activeTime: 40
-    recoveryTime: 30
-    nAttack: 3
-    nDefense: 3
-    rythm: 35
-    timePerAction: 0
-  - nTarget: 0
-    activeTime: 20
-    recoveryTime: 10
-    nAttack: 2
-    nDefense: 0
-    rythm: 40
-    timePerAction: 0
-  - nTarget: 0
-    activeTime: 10
-    recoveryTime: 0
-    nAttack: 3
-    nDefense: 0
-    rythm: 40
+    rythm: 15
     timePerAction: 0
 --- !u!1 &767814667 stripped
 GameObject:
@@ -709,7 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _serialSettings:
-  - touchControlSerialPortName: COM3
+  - touchControlSerialPortName: COM6
     ledControlSerialPortName: COM4
     playerCamera: {fileID: 411570567}
     impactThreshold: 3

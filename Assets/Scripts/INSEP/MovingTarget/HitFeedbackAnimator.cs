@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-namespace INSEP
-{
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(MeshRenderer))]
     public class HitFeedbackAnimator : MonoBehaviour
@@ -36,4 +34,3 @@ namespace INSEP
             Destroy(_renderer.material);
         }
     }
-}

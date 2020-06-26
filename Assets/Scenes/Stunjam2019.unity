@@ -452,6 +452,8 @@ MonoBehaviour:
   impact: {fileID: 383212594}
   _debugCamera: {fileID: 597049765}
   scoreText: {fileID: 2106998358}
+  _impactFeedback: {fileID: 1560084651323118, guid: 0226fe648fa591f4297fb91f796e0954,
+    type: 3}
 --- !u!1 &1523793887
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,14 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa43846beb49eb4eb700630cdc3196d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _serialSettings:
-  - touchControlSerialPortName: COM3
-    ledControlSerialPortName: COM4
-    playerCamera: {fileID: 833152886}
-    impactThreshold: 3
-    delayOffHit: 2
-    displayDatapoints: 0
-    ignoreBlackBackground: 0
+  _serialSettings: []
   _serialControllerPrefab: {fileID: 1333724754242966, guid: 3c6272710dc8ff64c914abfa898b6a6a,
     type: 3}
 --- !u!4 &1644190785
