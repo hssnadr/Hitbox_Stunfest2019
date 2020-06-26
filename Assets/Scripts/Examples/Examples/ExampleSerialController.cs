@@ -89,9 +89,7 @@ namespace CRI.HitBoxTemplate.Example
         {
             for (int i = 0; i < _serialControllers.Length; i++)
             {
-                if(_serialControllers[i] != null) {
-                    _serialControllers[i].GetComponent<SerialLedController>().EndGame();
-                }
+                _serialControllers[i].GetComponent<SerialLedController>().EndGame();
             }
         }
 
@@ -102,10 +100,7 @@ namespace CRI.HitBoxTemplate.Example
         {
             for (int i = 0; i < _serialControllers.Length; i++)
             {
-                if (_serialControllers[i] != null)
-                {
-                    _serialControllers[i].GetComponent<SerialLedController>().Hit();
-                }
+                _serialControllers[i].GetComponent<SerialLedController>().Hit();
             }
         }
 
@@ -116,10 +111,7 @@ namespace CRI.HitBoxTemplate.Example
         {
             for (int i = 0; i < _serialControllers.Length; i++)
             {
-                if (_serialControllers[i] != null)
-                {
-                    _serialControllers[i].GetComponent<SerialLedController>().DisplayGrid();
-                }
+                _serialControllers[i].GetComponent<SerialLedController>().DisplayGrid();
             }
         }
 
@@ -130,10 +122,7 @@ namespace CRI.HitBoxTemplate.Example
         {
             for (int i = 0; i < _serialControllers.Length; i++)
             {
-                if (_serialControllers[i] != null)
-                {
-                    _serialControllers[i].GetComponent<SerialLedController>().ShutDown();
-                }
+                _serialControllers[i].GetComponent<SerialLedController>().ShutDown();
             }
         }
 
@@ -144,10 +133,7 @@ namespace CRI.HitBoxTemplate.Example
         {
             for (int i = 0; i < _serialControllers.Length; i++)
             {
-                if (_serialControllers[i] != null)
-                {
-                    _serialControllers[i].GetComponent<SerialLedController>().ScreenSaver();
-                }
+                _serialControllers[i].GetComponent<SerialLedController>().ScreenSaver();
             }
         }
     }
